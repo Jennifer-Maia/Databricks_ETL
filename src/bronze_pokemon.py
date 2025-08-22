@@ -5,31 +5,32 @@
 #Insiro uma parametrização aqui para não precisar criar uma bronze para cada ingestão da raw
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
-# Define the schema according to your JSON structure
+# Schema que você já definiu
 schema = StructType([
     StructField("name", StringType(), True),
     StructField("type", StringType(), True),
     StructField("level", IntegerType(), True)
 ])
 
-dbutils.widgets.text(
-    "table",
-    "",
-    "Table Name"
-)
-table = dbutils.widgets.get("table")
+# Caminho raiz
+root_path = "/Volumes/raw/pokemon/pokemon_raw/"
 
-df = spark.read.json(
-    f"/Volumes/raw/pokemon/pokemon_raw/{table}/",
-    schema=schema
-)
+# Lista todas as subpastas dentro de pokemon_raw
+folders = [f.name.replace("/", "") for f in dbutils.fs.ls(root_path)]
 
-(df.distinct()
-    .coalesce(1)
-    .write.format("delta")
-    .mode("overwrite")
-    .saveAsTable(f"pokemon_{table}")
-)
+for folder in folders:
+    print(f"Processando pasta: {folder}")
+    
+    df = spark.read.json(f"{root_path}{folder}/", schema=schema)
+
+    (df.distinct()
+       .coalesce(1)
+       .write.format("delta")
+       .mode("overwrite")
+       .saveAsTable(f"pokemon_{folder}"))
+
+print("✅ Finalizado! Todas as tabelas foram criadas.")
+
 
 # COMMAND ----------
 

@@ -1,4 +1,8 @@
 # Databricks notebook source
+dbutils.fs.mkdirs("/Volumes/raw/pokemon/pokemon_raw/pokemons_details/")
+
+# COMMAND ----------
+
 #Criando uma função para pegar o dado e salvar no volume para pegar os detalhes, porque só tinha pego os nomes e os números. Agora teremos uma nova ingestão com os detalhes, e depois tudo vai se conversar a frente.
 #Isso é útil: Tenho diferentes ingestões (uma é API, outra é excel, outra SQL), ai em cada notebook faço uma ingestão, salvo, crio uma tabela e depois tudo pode se conversar fazendo os joins entre eles e etc
 import requests
@@ -36,13 +40,9 @@ urls
 
 import requests
 
-url = 'https://pokeapi.co/api/v2/pokemon/33/'
+url = 'https://pokeapi.co/api/v2/pokemon/33'
 data = requests.get(url).json()
 data['id']
-
-# COMMAND ----------
-
-dbutils.fs.mkdirs("/Volumes/raw/pokemon/pokemon_raw/pokemons_details/")
 
 # COMMAND ----------
 
