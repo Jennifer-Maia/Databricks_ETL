@@ -1,4 +1,8 @@
 # Databricks notebook source
+dbutils.fs.mkdirs("/Volumes/raw/pokemon/pokemon_raw/pokemons_list")
+
+# COMMAND ----------
+
 import requests
 import json
 import datetime
@@ -17,10 +21,6 @@ path = f"/Volumes/raw/pokemon/pokemon_raw/pokemons_list/{now}.json"
 with open(path, 'w') as open_file:
   json.dump(data_save, open_file)
 
-
-# COMMAND ----------
-
-dbutils.fs.mkdirs("/Volumes/raw/pokemon/pokemon_raw/pokemons_list")
 
 # COMMAND ----------
 
