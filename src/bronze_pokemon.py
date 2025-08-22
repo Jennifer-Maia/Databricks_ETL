@@ -5,7 +5,7 @@
 #Insiro uma parametrização aqui para não precisar criar uma bronze para cada ingestão da raw
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
-# Schema que você já definiu
+# Schema
 schema = StructType([
     StructField("name", StringType(), True),
     StructField("type", StringType(), True),
